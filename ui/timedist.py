@@ -808,7 +808,7 @@ class TimeDist(widgets.MouseHelperWidget):
         #drag.setPixmap(pixmap)
 
         drag.setMimeData(mime)
-        drag.exec_(Qt.MoveAction)
+        drag.exec(Qt.MoveAction)
 
     def dragEnterEvent(self, e):
         if e.source() == self:
@@ -863,7 +863,7 @@ class TimeDist(widgets.MouseHelperWidget):
             menu.addAction(ch[1]) # dummy entry so the user knows exactly what we're operating on
             menu.addSeparator()
             menu.addAction('Remove channel').triggered.connect(lambda: self.channelMenuRemove(ch))
-            menu.exec_(event.globalPos())
+            menu.exec(event.globalPos())
         else:
             # general widget context menu
-            QMenu.exec_(self.actions(), event.globalPos(), None, self)
+            QMenu.exec(self.actions(), event.globalPos(), None, self)
