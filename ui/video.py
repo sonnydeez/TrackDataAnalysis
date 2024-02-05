@@ -23,72 +23,6 @@ from . import mpv
 from . import widgets
 from .timedist import roundUpHumanNumber, AxisGrid
 
-
-class GetProcAddressGetter:
-    """This wrapper class is necessary because the required function pointers were only exposed from Qt 6.5 onwards
-    https://bugreports.qt.io/browse/PYSIDE-971"""
-
-    def __init__(self):
-        self._func = self._find_platform_wrapper()
-
-    def _find_platform_wrapper(self):
-        operating_system = platform.system()
-        if operating_system == 'Linux':
-            return self._init_linux()
-        elif operating_system == 'Windows':
-            return self._init_windows()
-        raise f'Platform {operating_system} not supported yet'
-
-    def _init_linux(self):
-        try:
-            from OpenGL import GLX
-            return self._glx_impl
-        except AttributeError:
-            pass
-        try:
-            from OpenGL import EGL
-            return self._egl_impl
-        except AttributeError:
-            pass
-        raise 'Cannot initialize OpenGL'
-
-    def _init_windows(self):
-        import glfw
-        from PySide6.QtGui import QOffscreenSurface, QOpenGLContext
-
-        self.surface = QOffscreenSurface()
-        self.surface.create()
-
-        if not glfw.init():
-            raise 'Cannot initialize OpenGL'
-
-        glfw.window_hint(glfw.VISIBLE, glfw.FALSE)
-        window = glfw.create_window(1, 1, "mpvQC-OpenGL", None, None)
-
-        glfw.make_context_current(window)
-        QOpenGLContext.currentContext().makeCurrent(self.surface)
-        return self._windows_impl
-
-    def wrap(self, _, name: bytes):
-        address = self._func(name)
-        return ctypes.cast(address, ctypes.c_void_p).value
-
-    @staticmethod
-    def _glx_impl(name: bytes):
-        from OpenGL import GLX
-        return GLX.glXGetProcAddress(name.decode("utf-8"))
-
-    @staticmethod
-    def _egl_impl(name: bytes):
-        from OpenGL import EGL
-        return EGL.eglGetProcAddress(name.decode("utf-8"))
-
-    @staticmethod
-    def _windows_impl(name: bytes):
-        import glfw
-        return glfw.get_proc_address(name.decode('utf8'))
-
-
 #class Video(QVideoWidget):
 class OneVideo(QOpenGLWidget):
     onUpdate = Signal()
@@ -258,9 +192,17 @@ class OneVideo(QOpenGLWidget):
             self.last_seek_time = newt
             self.last_seek_exact = True
 
+    @staticmethod
+    def get_process_address(_, name):
+        from PySide6.QtGui import QOpenGLContext
+        glctx = QOpenGLContext.currentContext()
+        if glctx is None:
+            return 0
+        return int(glctx.getProcAddress(name))
+
     def initializeGL(self):
         if self._get_proc_address_resolver is None:
-            self._get_proc_address_resolver = mpv.MpvGlGetProcAddressFn(GetProcAddressGetter().wrap)
+            self._get_proc_address_resolver = mpv.MpvGlGetProcAddressFn(self.get_process_address)
         self.ctx = mpv.MpvRenderContext(
             self.player, 'opengl',
             opengl_init_params={'get_proc_address': self._get_proc_address_resolver})
