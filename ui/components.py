@@ -61,7 +61,7 @@ class ComponentManager(QWidget):
                                     QtGui.QColor(bright, bright, bright))
 
     def resizeMatrix(self):
-        return QtGui.QMatrix().scale(self.size().width(), self.size().height())
+        return QtGui.QTransform().scale(self.size().width(), self.size().height())
 
     def resizeEvent(self, e):
         m = self.resizeMatrix()
@@ -317,8 +317,8 @@ class ComponentBase(QWidget):
                 newGeo.setRight(min(max(e.globalPos().x() + self.pressedGeometry.right(),
                                         newGeo.left() + minSize.width()),
                                     self.parentWidget().width()))
-            m = QtGui.QMatrix().scale(1 / self.parentWidget().width(),
-                                      1 / self.parentWidget().height())
+            m = QtGui.QTransform().scale(1 / self.parentWidget().width(),
+                                         1 / self.parentWidget().height())
             self.fracGeometry = QRectF(m.map(QPointF(newGeo.topLeft())),
                                        m.map(QPointF(newGeo.bottomRight())))
             self.setGeometry(newGeo)
