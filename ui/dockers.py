@@ -10,6 +10,7 @@ from PySide6.QtCore import QAbstractTableModel, QRect, QSize, Qt
 from PySide6 import QtGui
 from PySide6.QtWidgets import (
     QAbstractItemDelegate,
+    QAbstractItemView,
     QDockWidget,
     QHeaderView,
     QLineEdit,
@@ -175,18 +176,18 @@ class DataDockWidget(TempDockWidget):
         self.model = DataDockModel(mainwindow.data_view)
         self.table = QTableView()
         self.table.setModel(self.model)
-        self.table.setSelectionMode(self.table.SingleSelection)
-        self.table.setSelectionBehavior(self.table.SelectRows)
+        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.table.setShowGrid(False)
         self.table.horizontalHeader().setHighlightSections(False)
         self.table.horizontalHeader().setMinimumSectionSize(10)
-        self.table.setHorizontalScrollMode(self.table.ScrollPerPixel)
+        self.table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.verticalHeader().hide()
         self.table.verticalHeader().setMinimumSectionSize(5)
         self.table.verticalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        self.table.setEditTriggers(self.table.NoEditTriggers)
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.pressed.connect(self.clickCell)
         self.setWidget(self.table)
 
@@ -452,7 +453,7 @@ class ValuesDockWidget(TempDockWidget):
         self.table.setShowGrid(False)
         self.table.setSelectionMode(QTableWidget.SingleSelection)
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
-        self.table.setHorizontalScrollMode(self.table.ScrollPerPixel)
+        self.table.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.table.horizontalHeader().setHighlightSections(False)
         self.table.horizontalHeader().setMinimumSectionSize(10)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
@@ -461,7 +462,7 @@ class ValuesDockWidget(TempDockWidget):
         self.table.verticalHeader().hide()
         self.table.verticalHeader().setMinimumSectionSize(5)
         self.table.verticalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        self.table.setEditTriggers(self.table.NoEditTriggers)
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.activated.connect(self.activate_cell)
 
         mainwindow.data_view.cursor_change.connect(self.update_cursor)
@@ -477,7 +478,7 @@ class ValuesDockWidget(TempDockWidget):
         self.setWidget(widget)
 
         pal = self.table.palette()
-        pal.setColor(pal.Base, QtGui.QColor(0, 0, 0))
+        pal.setColor(pal.ColorRole.Base, QtGui.QColor(0, 0, 0))
         self.table.setPalette(pal)
 
         self.text_hints = TextMatcher('')
