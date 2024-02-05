@@ -235,7 +235,7 @@ class MainWindow(QMainWindow):
         bbox.accepted.connect(dia.accept)
         bbox.rejected.connect(dia.reject)
 
-        if dia.exec_():
+        if dia.exec():
             self.data_view.maps_key = ['maptiler', maptiler_key.text()]
 
     def open(self):
@@ -379,4 +379,4 @@ window = MainWindow()
 window.show()
 
 # Start the event loop.
-app.exec_()
+app.exec()
