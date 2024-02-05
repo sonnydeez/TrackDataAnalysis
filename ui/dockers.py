@@ -318,7 +318,7 @@ class ChannelsDockWidget(TempDockWidget):
         for i in range(self.chList.count()):
             it = self.chList.item(i)
             if it.text() in chSet:
-                it.setBackgroundColor(QtGui.QColor(255, 255, 0))
+                it.setBackground(QtGui.QBrush(QtGui.QColor(255, 255, 0)))
             else:
                 it.setBackground(Qt.NoBrush)
 
