@@ -7,17 +7,17 @@ import math
 import os.path
 import platform
 
-from PySide2 import QtGui
-from PySide2.QtCore import QSize, Qt, Signal
-from PySide2.QtWidgets import (
-    QAction,
+from PySide6 import QtGui
+from PySide6.QtCore import QSize, Qt, Signal
+from PySide6.QtGui import QAction
+from PySide6.QtOpenGLWidgets import QOpenGLWidget
+from PySide6.QtWidgets import (
     QFileDialog,
     QGridLayout,
-    QOpenGLWidget,
     QWidget,
 )
-#from PySide2.QtMultimedia import QMediaContent, QMediaPlayer
-#from PySide2.QtMultimediaWidgets import QVideoWidget
+#from PySide6.QtMultimedia import QMediaContent, QMediaPlayer
+#from PySide6.QtMultimediaWidgets import QVideoWidget
 
 from . import mpv
 from . import widgets
@@ -54,7 +54,7 @@ class GetProcAddressGetter:
 
     def _init_windows(self):
         import glfw
-        from PySide2.QtGui import QOffscreenSurface, QOpenGLContext
+        from PySide6.QtGui import QOffscreenSurface, QOpenGLContext
 
         self.surface = QOffscreenSurface()
         self.surface.create()

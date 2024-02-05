@@ -6,9 +6,9 @@ from dataclasses import dataclass
 import math
 import sys
 
-from PySide2.QtCore import QAbstractTableModel, QRect, QSize, Qt
-from PySide2 import QtGui
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QAbstractTableModel, QRect, QSize, Qt
+from PySide6 import QtGui
+from PySide6.QtWidgets import (
     QAbstractItemDelegate,
     QDockWidget,
     QHeaderView,

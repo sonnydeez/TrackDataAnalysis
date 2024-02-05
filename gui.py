@@ -7,8 +7,8 @@ import json
 import os
 import sys
 
-from PySide2.QtCore import QSize, QStandardPaths, Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSize, QStandardPaths, Qt, Signal
+from PySide6.QtWidgets import (
     QApplication,
     QDialog,
     QDialogButtonBox,

@@ -4,8 +4,8 @@
 from dataclasses import dataclass
 import typing
 
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
     QDialogButtonBox,

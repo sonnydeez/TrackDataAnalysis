@@ -7,12 +7,10 @@ import urllib.request
 
 import numpy as np
 
-from PySide2 import QtGui
-from PySide2.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, Signal
-from PySide2.QtWidgets import (
-    QAction,
-    QWidget,
-)
+from PySide6 import QtGui
+from PySide6.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, Signal
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QWidget
 
 import data.gps as gps
 from . import widgets
